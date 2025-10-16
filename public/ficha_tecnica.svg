@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="60mm" height="20mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 6000 2000"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <font id="FontID0" horiz-adv-x="745" font-variant="normal" style="fill-rule:nonzero" font-weight="800">
+	<font-face 
+		font-family="JUST Sans ExBold">
+		<font-face-src>
+			<font-face-name name="JUST Sans ExBold"/>
+		</font-face-src>
+	</font-face>
+   <missing-glyph><path d="M0 0z"/></missing-glyph>
+   <glyph unicode="A" horiz-adv-x="745" d="M732.999 0l-230.002 700 -260.999 0 -230.002 -700 204.006 0 34.9953 125.002 238 0 35.0025 -125.002 208.999 0zm-368.002 535.003l10.0007 0 72.0009 -260.004 -154.002 0 72.0009 260.004z"/>
+   <glyph unicode="C" horiz-adv-x="745" d="M383.003 -10.0007c182.996,0 297.997,82.0016 332.999,238l-198.004 40.0029c-17.9984,-73.0024 -69.9978,-115.001 -134.995,-115.001 -91.0008,0 -148.001,73.0024 -148.001,197.003 0,123.993 56.9998,196.995 148.001,196.995 62.0001,0 111.997,-39.0014 128.993,-115.001l198.004 40.0029c-34.001,154.997 -148.001,238 -326.998,238 -219,0 -348.001,-145.998 -348.001,-359.997 0,-214.007 129.001,-360.004 348.001,-360.004z"/>
+   <glyph unicode="F" horiz-adv-x="632" d="M263.002 0l0 262 305 0 0 145.003 -305 0 0 132.999 334.995 0 0 159.997 -534.995 0 0 -700 200 0z"/>
+   <glyph unicode="H" horiz-adv-x="770" d="M263.002 0l0 269.998 244.996 0 0 -269.998 200 0 0 700 -200 0 0 -259.997 -244.996 0 0 259.997 -200 0 0 -700 200 0z"/>
+   <glyph unicode="I" horiz-adv-x="326" d="M263.002 0l0 700 -200 0 0 -700 200 0z"/>
+   <glyph unicode="N" horiz-adv-x="780" d="M257.997 0l0 235.999c0,57.9975 -1.00232,111.004 -5.00106,173.001l10.0021 0 244.999 -409 210.002 0 0 700 -194.999 0 0 -235.999c0,-57.0057 1.00232,-111.004 5.00106,-173.001l-10.0021 0 -244.999 409 -210.002 0 0 -700 194.999 0z"/>
+   <glyph unicode="T" horiz-adv-x="650" d="M425.005 0l0 525.005 206.995 0 0 174.995 -614.001 0 0 -174.995 207.006 0 0 -525.005 200 0z"/>
+   <glyph unicode="É" horiz-adv-x="647" d="M411.996 760.002l142.003 169.994 -216.997 0 -71.9983 -169.994 146.993 0zm191 -760.002l0 160.002 -339.998 0 0 133.003 300 0 0 133.995 -300 0 0 112.999 339.998 0 0 160.002 -539.998 0 0 -700 539.998 0z"/>
+  </font>
+  <style type="text/css">
+   <![CDATA[
+    @font-face { font-family:"JUST Sans ExBold";font-variant:normal;font-weight:800;src:url("#FontID0") format(svg)}
+    .fil0 {fill:black}
+    .fnt1 {font-weight:800;font-size:947.8px;font-family:'JUST Sans ExBold'}
+    .fnt0 {font-weight:800;font-size:1387.9px;font-family:'JUST Sans ExBold'}
+   ]]>
+  </style>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_2396357894176">
+   <g transform="matrix(1.33476 0 0 1 -4042.13 37.9475)">
+    <text x="3000" y="1000"  class="fil0 fnt0">FICHA</text>
+   </g>
+   <g transform="matrix(1.33476 0 0 1 -3947.72 939.051)">
+    <text x="3000" y="1000"  class="fil0 fnt1">TÉCNICA</text>
+   </g>
+  </g>
+ </g>
+</svg>
