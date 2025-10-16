@@ -69,13 +69,26 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.front_path.setPlaceholderText("Caminho da imagem...")
 		btn_front = QtWidgets.QPushButton("Selecionar...")
 		btn_front.clicked.connect(lambda: self._pick_image(self.front_path, self.front_preview))
+		btn_front_paste = QtWidgets.QPushButton("Colar da área de transferência")
+		btn_front_paste.clicked.connect(lambda: self._paste_image(self.front_path, self.front_preview, prefix="front"))
+		btn_front_clear = QtWidgets.QPushButton("Excluir imagem")
+		btn_front_clear.clicked.connect(lambda: self._clear_image(self.front_path, self.front_preview))
 		front_group.addWidget(self.front_path)
 		front_group.addWidget(btn_front)
+		front_group.addWidget(btn_front_paste)
+		front_group.addWidget(btn_front_clear)
 		self.front_preview = QtWidgets.QLabel()
 		self.front_preview.setFixedSize(120, 100)
 		self.front_preview.setStyleSheet("border: 1px solid gray; background-color: white;")
 		self.front_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 		self.front_preview.setText("Sem imagem")
+		self.front_preview.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.ActionsContextMenu)
+		action_paste_front = QtGui.QAction("Colar imagem", self)
+		action_paste_front.triggered.connect(lambda: self._paste_image(self.front_path, self.front_preview, prefix="front"))
+		action_clear_front = QtGui.QAction("Excluir imagem", self)
+		action_clear_front.triggered.connect(lambda: self._clear_image(self.front_path, self.front_preview))
+		self.front_preview.addAction(action_paste_front)
+		self.front_preview.addAction(action_clear_front)
 		front_group.addWidget(self.front_preview)
 		
 		# Costa
@@ -85,13 +98,26 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.back_path.setPlaceholderText("Caminho da imagem...")
 		btn_back = QtWidgets.QPushButton("Selecionar...")
 		btn_back.clicked.connect(lambda: self._pick_image(self.back_path, self.back_preview))
+		btn_back_paste = QtWidgets.QPushButton("Colar da área de transferência")
+		btn_back_paste.clicked.connect(lambda: self._paste_image(self.back_path, self.back_preview, prefix="back"))
+		btn_back_clear = QtWidgets.QPushButton("Excluir imagem")
+		btn_back_clear.clicked.connect(lambda: self._clear_image(self.back_path, self.back_preview))
 		back_group.addWidget(self.back_path)
 		back_group.addWidget(btn_back)
+		back_group.addWidget(btn_back_paste)
+		back_group.addWidget(btn_back_clear)
 		self.back_preview = QtWidgets.QLabel()
 		self.back_preview.setFixedSize(120, 100)
 		self.back_preview.setStyleSheet("border: 1px solid gray; background-color: white;")
 		self.back_preview.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 		self.back_preview.setText("Sem imagem")
+		self.back_preview.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.ActionsContextMenu)
+		action_paste_back = QtGui.QAction("Colar imagem", self)
+		action_paste_back.triggered.connect(lambda: self._paste_image(self.back_path, self.back_preview, prefix="back"))
+		action_clear_back = QtGui.QAction("Excluir imagem", self)
+		action_clear_back.triggered.connect(lambda: self._clear_image(self.back_path, self.back_preview))
+		self.back_preview.addAction(action_paste_back)
+		self.back_preview.addAction(action_clear_back)
 		back_group.addWidget(self.back_preview)
 		
 		img_layout.addLayout(front_group)
@@ -109,26 +135,49 @@ class MainWindow(QtWidgets.QMainWindow):
 		# Tabela de tamanhos
 		row += 1
 		self.table_inputs: dict[tuple[str, str, str], QtWidgets.QSpinBox] = {}
+		self.infantil_sizes: list[str] = [str(n) for n in range(2, 18, 2)]  # padrão 2..16
 		table_group = QtWidgets.QGroupBox("Tabela de Tamanhos")
 		grid = QtWidgets.QGridLayout(table_group)
 		genders = ["feminino", "masculino", "infantil"]
-		sizes = ["PP", "P", "M", "G", "GG", "XG"]
+		sizes_by_gender: dict[str, list[str]] = {
+			"feminino": ["PP", "P", "M", "G", "GG", "XG", "XGG", "XG3"],
+			"masculino": ["PP", "P", "M", "G", "GG", "XG", "XGG", "XG3"],
+			"infantil": self.infantil_sizes,
+		}
 		sleeves = ["curta", "longa"]
 		row_g = 0
+		self._infantil_size_labels: list[QtWidgets.QLabel] = []
+		self._infantil_row_spins: list[dict[str, QtWidgets.QSpinBox]] = []
 		for gi, gender in enumerate(genders):
 			grid.addWidget(QtWidgets.QLabel(gender.upper()), row_g, gi * 3, 1, 3)
 			grid.addWidget(QtWidgets.QLabel(""), row_g + 1, gi * 3)  # coluna tamanhos vazia
 			grid.addWidget(QtWidgets.QLabel("CURTA"), row_g + 1, gi * 3 + 1)
 			grid.addWidget(QtWidgets.QLabel("LONGA"), row_g + 1, gi * 3 + 2)
-			for si, size in enumerate(sizes):
-				grid.addWidget(QtWidgets.QLabel(size), row_g + 2 + si, gi * 3)
+			for si, size in enumerate(sizes_by_gender[gender]):
+				lbl = QtWidgets.QLabel(size)
+				grid.addWidget(lbl, row_g + 2 + si, gi * 3)
+				if gender == "infantil":
+					self._infantil_size_labels.append(lbl)
+				row_spins: dict[str, QtWidgets.QSpinBox] = {}
 				for sj, sleeve in enumerate(sleeves):
 					spin = QtWidgets.QSpinBox()
 					spin.setRange(0, 999)
 					grid.addWidget(spin, row_g + 2 + si, gi * 3 + 1 + sj)
 					self.table_inputs[(gender, size, sleeve)] = spin
+					if gender == "infantil":
+						row_spins[sleeve] = spin
+				if gender == "infantil":
+					self._infantil_row_spins.append(row_spins)
 		layout.addLayout(form)
 		layout.addWidget(table_group)
+
+		# Controles auxiliares para infantil
+		aux = QtWidgets.QHBoxLayout()
+		self.btn_select_infantil = QtWidgets.QPushButton("Selecionar idades infantis…")
+		self.btn_select_infantil.clicked.connect(self._select_infantil_ages)
+		aux.addStretch(1)
+		aux.addWidget(self.btn_select_infantil)
+		layout.addLayout(aux)
 
 		# Ações
 		actions = QtWidgets.QHBoxLayout()
@@ -143,11 +192,23 @@ class MainWindow(QtWidgets.QMainWindow):
 
 		self.setCentralWidget(container)
 
+		# Ícone da aplicação (logo)
+		try:
+			from .start_window import load_app_icon
+			app_icon = load_app_icon()
+			if not app_icon.isNull():
+				self.setWindowIcon(app_icon)
+		except Exception:
+			pass
+
 	def _pick_image(self, target: QtWidgets.QLineEdit, preview: QtWidgets.QLabel):
-		file, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Selecionar imagem", os.getcwd(), "Imagens (*.png *.jpg *.jpeg)")
+		settings = QtCore.QSettings("ManauaraDesign", "BudgetApp")
+		start_dir = settings.value("lastDir", os.getcwd())
+		file, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Selecionar imagem", start_dir, "Imagens (*.png *.jpg *.jpeg)")
 		if file:
 			target.setText(file)
 			self._update_preview(file, preview)
+			settings.setValue("lastDir", os.path.dirname(file))
 
 	def _update_preview(self, image_path: str, preview: QtWidgets.QLabel):
 		try:
@@ -160,6 +221,32 @@ class MainWindow(QtWidgets.QMainWindow):
 				preview.setText("Imagem inválida")
 		except Exception:
 			preview.setText("Erro ao carregar")
+
+	def _paste_image(self, target: QtWidgets.QLineEdit, preview: QtWidgets.QLabel, prefix: str = "img"):
+		cb = QtWidgets.QApplication.clipboard()
+		img = cb.image()
+		if img.isNull():
+			# tenta ler de QPixmap (copiado do explorador)
+			pix = cb.pixmap()
+			if pix.isNull():
+				QtWidgets.QMessageBox.information(self, "Área de transferência", "Nenhuma imagem encontrada para colar.")
+				return
+			else:
+				img = pix.toImage()
+		cache_dir = QtCore.QStandardPaths.writableLocation(QtCore.QStandardPaths.StandardLocation.CacheLocation)
+		if not cache_dir:
+			cache_dir = os.path.join(os.getcwd(), ".cache")
+		os.makedirs(cache_dir, exist_ok=True)
+		filename = f"{prefix}_{QtCore.QDateTime.currentDateTime().toString('yyyyMMdd_hhmmss_zzz')}.png"
+		path = os.path.join(cache_dir, filename)
+		img.save(path, "PNG")
+		target.setText(path)
+		self._update_preview(path, preview)
+
+	def _clear_image(self, target: QtWidgets.QLineEdit, preview: QtWidgets.QLabel):
+		target.clear()
+		preview.clear()
+		preview.setText("Sem imagem")
 
 	def _update_delivery(self):
 		od = self.order_date.date().toPyDate()
@@ -210,11 +297,17 @@ class MainWindow(QtWidgets.QMainWindow):
 			back_image_path=self.back_path.text().strip() or None,
 		)
 		st = self._collect_size_table()
+		# Atualiza ordem/labels infantis no info
+		info.infantil_selected_sizes = self.infantil_sizes.copy()
 
 		default_name = f"Ficha_{info.client_name}_{date.today().isoformat()}.pdf"
-		path, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Salvar PDF", default_name, "PDF (*.pdf)")
+		settings = QtCore.QSettings("ManauaraDesign", "BudgetApp")
+		start_dir = settings.value("lastDir", os.getcwd())
+		initial_path = os.path.join(start_dir, default_name)
+		path, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Salvar PDF", initial_path, "PDF (*.pdf)")
 		if not path:
 			return
+		settings.setValue("lastDir", os.path.dirname(path))
 
 		try:
 			pdf = TechSheetPDF(logos_dir="public")
@@ -222,3 +315,49 @@ class MainWindow(QtWidgets.QMainWindow):
 			QtWidgets.QMessageBox.information(self, "Sucesso", "PDF gerado com sucesso.")
 		except Exception as e:
 			QtWidgets.QMessageBox.critical(self, "Erro ao gerar PDF", str(e))
+
+	def _select_infantil_ages(self):
+		# Diálogo simples com checkboxes para 2..16, selecionar até 8
+		dlg = QtWidgets.QDialog(self)
+		dlg.setWindowTitle("Selecionar idades infantis")
+		layout = QtWidgets.QVBoxLayout(dlg)
+		info_lbl = QtWidgets.QLabel("Selecione até 8 idades (2 a 16, de 2 em 2)")
+		layout.addWidget(info_lbl)
+		scroll = QtWidgets.QScrollArea()
+		scroll.setWidgetResizable(True)
+		inner = QtWidgets.QWidget()
+		inner_layout = QtWidgets.QVBoxLayout(inner)
+		checks: list[QtWidgets.QCheckBox] = []
+		for n in range(2, 18, 2):
+			cb = QtWidgets.QCheckBox(str(n))
+			cb.setChecked(str(n) in set(self.infantil_sizes))
+			checks.append(cb)
+			inner_layout.addWidget(cb)
+		inner_layout.addStretch(1)
+		scroll.setWidget(inner)
+		layout.addWidget(scroll)
+		btns = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.StandardButton.Ok | QtWidgets.QDialogButtonBox.StandardButton.Cancel)
+		layout.addWidget(btns)
+		btns.accepted.connect(dlg.accept)
+		btns.rejected.connect(dlg.reject)
+		if dlg.exec() == QtWidgets.QDialog.DialogCode.Accepted:
+			selected = [cb.text() for cb in checks if cb.isChecked()]
+			# limita a 8 itens; se mais, pega os 8 primeiros em ordem numérica
+			selected_sorted = sorted(selected, key=lambda s: int(s))[:8]
+			# se menos de 8, completa com vazio? Manteremos menos linhas usadas; labels vazias
+			self.infantil_sizes = selected_sorted + []
+			# Atualiza labels no grid
+			for idx, lbl in enumerate(self._infantil_size_labels):
+				text = self.infantil_sizes[idx] if idx < len(self.infantil_sizes) else ""
+				lbl.setText(text)
+			# Recria o mapeamento de entradas infantis para refletir novos rótulos por linha
+			# Mantém as entradas de feminino/masculino
+			new_map: dict[tuple[str, str, str], QtWidgets.QSpinBox] = {k: v for k, v in self.table_inputs.items() if k[0] != "infantil"}
+			for idx, lbl in enumerate(self._infantil_size_labels):
+				label_text = lbl.text()
+				if not label_text:
+					continue
+				row_spins = self._infantil_row_spins[idx] if idx < len(self._infantil_row_spins) else {}
+				for sleeve, spin in row_spins.items():
+					new_map[("infantil", label_text, sleeve)] = spin
+			self.table_inputs = new_map

@@ -6,7 +6,7 @@ from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
 from datetime import date
 
-from . import __init__  # noqa: F401
+from . import __init__ 
 from ..core.models import OrderInfo, SizeTable
 from ..core.utils import cm
 
@@ -95,13 +95,13 @@ class TechSheetPDF:
         text_width = c.stringWidth(text, font, size)
         c.drawString(x - text_width / 2, y, text)
 
-    def _draw_table(self, c: canvas.Canvas, x: float, y: float, table: SizeTable) -> None:
+    def _draw_table(self, c: canvas.Canvas, x: float, y: float, table: SizeTable, infantil_sizes: list[str] | None = None) -> None:
         total_w_cm = 12.7
-        total_h_cm = 4.3
+        total_h_cm = 5.7
         block_w_cm = total_w_cm / 3
         block_h_cm = total_h_cm
         cols = 3
-        rows = 8  # 1 título + 1 cabeçalho + 6 tamanhos
+        rows = 10  
 
         y -= cm(0.5)  
 
@@ -109,46 +109,49 @@ class TechSheetPDF:
             bx = x + cm(idx * block_w_cm)
             by = y
 
-            # dimensões em pontos
+          
             bw = cm(block_w_cm)
             bh = cm(block_h_cm)
 
-            # Linhas horizontais internas (começam da 2ª linha pra baixo)
+            
             row_h = bh / rows
             for r in range(1, rows):
                 c.line(bx, by - r * row_h, bx + bw, by - r * row_h)
 
-            # Linhas verticais (somente da 2ª linha pra baixo)
+           
             col_w = bw / cols
             for j in range(1, cols):
                 c.line(bx + j * col_w, by - row_h, bx + j * col_w, by - bh)
 
-            # Linha grossa de separação entre blocos
-            if idx < 2:  # evita desenhar após o último bloco
+           
+            if idx < 2:  
                 c.setLineWidth(2)
                 c.line(bx + bw, by, bx + bw, by - bh)
                 c.setLineWidth(1)
 
             # --- TEXTOS ---
 
-            # Título principal (1ª linha, centralizado)
+           
             c.setFont("Helvetica-Bold", 11)
             c.drawCentredString(bx + bw / 2, by - row_h / 1.5, gender.upper())
 
-            # Cabeçalho "CURTA" e "LONGA" (2ª linha)
+       
             c.setFont("Helvetica-Bold", 8)
             c.drawCentredString(bx + col_w * 1.5, by - row_h * 1.6, "CURTA")
             c.drawCentredString(bx + col_w * 2.5, by - row_h * 1.6, "LONGA")
 
-            # Tamanhos a partir da 3ª linha
+         
             c.setFont("Helvetica-Bold", 9)
-            sizes = ["PP", "P", "M", "G", "GG", "XG"]
+            if gender in ("feminino", "masculino"):
+                sizes = ["PP", "P", "M", "G", "GG", "XG", "XGG", "XG3"]
+            else:
+                sizes = infantil_sizes or ["2A", "4A", "6A", "8A", "10A", "12A", "14A", "16A"]
             for r, size in enumerate(sizes, start=2):
-                # desce 0.121 cm os tamanhos
+                
                 text_y = by - row_h * (r + 0.4) - cm(0.121)
                 c.drawCentredString(bx + col_w * 0.5, text_y, size)
 
-                # valores das colunas CURTA e LONGA
+                
                 for j, sleeve in enumerate(["curta", "longa"]):
                     val = table.get_quantity(gender, size, sleeve)
                     if val:
@@ -166,7 +169,7 @@ class TechSheetPDF:
         client_y = y - cm(2.8)
         self._draw_text(c, "CLIENTE", x + cm(0.8), client_y + cm(0.22), "Helvetica-Bold", 12)
         c.rect(x + cm(0.8), client_y - cm(1), cm(6.5), cm(0.88))
-        client_name = (info.client_name or "Nome")[:20]  # pega no máximo 20 caracteres
+        client_name = (info.client_name or "Nome")[:20] 
         self._draw_text(c, client_name, x + cm(1.0), client_y - cm(0.8), "Helvetica", 15)
 
 
@@ -198,16 +201,16 @@ class TechSheetPDF:
         box_y = y - cm(4.5) - cm(self.FRONT_BOX_CM[1])
         box_w, box_h = cm(self.FRONT_BOX_CM[0]), cm(self.FRONT_BOX_CM[1])
 
-        # Coordenadas centrais dos quadrados
+     
         center_x_front = x + cm(0.8) + box_w / 2
         center_x_back = x + cm(7.4) + box_w / 2
-        text_y = box_y + box_h + cm(0.2)  # altura do texto
+        text_y = box_y + box_h + cm(0.2)  
 
-        # Desenha retângulos
+        
         c.rect(x + cm(0.8), box_y, box_w, box_h)
         c.rect(x + cm(7.4), box_y, box_w, box_h)
 
-        # Desenha textos centralizados horizontalmente usando a função já existente
+        
         self._draw_text_centered(c, "FRENTE", center_x_front, text_y, "Helvetica-Bold", 12)
         self._draw_text_centered(c, "COSTA", center_x_back, text_y, "Helvetica-Bold", 12)
 
@@ -228,24 +231,24 @@ class TechSheetPDF:
         for idx, (title, value) in enumerate(fields):
             field_y = fields_y - cm(idx * 1.35)
             
-            # Texto do título ajustado
+           
             title_x = x + cm(0.8) + cm(0.043)
             title_y = field_y + cm(0.087)
             self._draw_text(c, title, title_x, title_y, "Helvetica-Bold", 10)
             
-            # Caixa ajustada
+            
             box_w, box_h = cm(5.805), cm(0.669)
             c.rect(x + cm(0.8), field_y - box_h, box_w, box_h)
             
-            # Texto da resposta centralizado verticalmente
-            text_y_val = (field_y - box_h) + (box_h / 2) - (11 / 2) * 0.3  # fonte tamanho 11
+            
+            text_y_val = (field_y - box_h) + (box_h / 2) - (11 / 2) * 0.3 
             self._draw_text(c, value, x + cm(1.0), text_y_val, "Helvetica", 11)
 
         desc_y = fields_y
         self._draw_text(c,"DESCRIÇÃO",x + cm(7.5 - 0.188),desc_y + cm(0.103),"Helvetica-Bold",10 )
         c.roundRect(x + cm(7.5 - 0.2), desc_y - cm(3.229), cm(6.5), cm(3.229), 4)
         if info.description:
-            truncated_desc = info.description[:260]  # pega no máximo 270 caracteres
+            truncated_desc = info.description[:260] 
             self._wrap_text(
                 c,
                 truncated_desc,
@@ -258,15 +261,9 @@ class TechSheetPDF:
             )
 
 
-        table_y = y - cm(14.5)
-        self._draw_table(c, x + cm(0.8), table_y, table)
-
-        footer_width_cm = 11.0
-        footer_center_x = x + cm(1.2) + cm(footer_width_cm)/2
-        footer_y = cm(0.5)
-        footer_text = "   manauaradesig@gmail.com Desenvolvido por Manauara Design - Todos os direitos reservados @2026"
-        c.setFont("Helvetica", 8)
-        c.drawCentredString(footer_center_x, footer_y, footer_text)
+        table_y = y - cm(14.0)
+        infantil_order = info.infantil_selected_sizes or None
+        self._draw_table(c, x + cm(0.8), table_y, table, infantil_order)
 
     def build(self, info: OrderInfo, table: SizeTable, options: PDFOptions) -> None:
         c = canvas.Canvas(options.output_path, pagesize=(cm(self.A4_WIDTH_CM), cm(self.A4_HEIGHT_CM)))

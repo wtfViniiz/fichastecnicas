@@ -1,10 +1,11 @@
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Dict, Optional, Literal, Tuple
+from typing import Dict, Optional, Literal, Tuple, List
 
 Gender = Literal["feminino", "masculino", "infantil"]
 Sleeve = Literal["curta", "longa"]
-Size = Literal["PP", "P", "M", "G", "GG", "XG"]
+# Size agora é aberto (str) para suportar novos tamanhos como "XGG", "XG3" e idades ("2", "4", ...)
+Size = str
 Fabric = Literal["helanca", "dryfit", "dryfit_colmeia"]
 Neck = Literal["careca", "gola_v", "gola_transpassada"]
 
@@ -20,6 +21,7 @@ class OrderInfo:
 	is_set: bool = False
 	front_image_path: Optional[str] = None
 	back_image_path: Optional[str] = None
+	infantil_selected_sizes: Optional[List[str]] = None
 
 
 SizeTableKey = Tuple[Gender, Size, Sleeve]
