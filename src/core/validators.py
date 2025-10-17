@@ -48,17 +48,31 @@ class BudgetValidator:
             self.errors.append("Orçamento deve ter pelo menos um produto.")
             return
         
+        # Regra especial: camisetas podem somar tamanhos/variações até atingir mínimo
+        total_camisas = 0
+        for item in budget.items:
+            if item.product_type == "camiseta":
+                try:
+                    total_camisas += int(item.quantity)
+                except Exception:
+                    pass
+
         for i, item in enumerate(budget.items, 1):
             self._validate_product(item, i)
+
+        # Se houver ao menos uma camiseta, valida mínimo somado
+        if total_camisas > 0 and total_camisas < self.MIN_QUANTITY_CAMISETA:
+            self.errors.append(
+                f"Quantidade mínima para camisetas (somadas) é {self.MIN_QUANTITY_CAMISETA} unidades. Atual: {total_camisas}."
+            )
     
     def _validate_product(self, item: ProductItem, position: int):
         """Valida um produto específico"""
         prefix = f"Produto {position}:"
         
-        # Validar quantidade mínima
+        # Validar quantidade mínima por item (exceto camisetas, que usam soma global)
         if item.product_type == "camiseta":
-            if item.quantity < self.MIN_QUANTITY_CAMISETA:
-                self.errors.append(f"{prefix} Quantidade mínima para camisetas é {self.MIN_QUANTITY_CAMISETA} unidades.")
+            pass
         elif item.product_type == "conjunto":
             if item.quantity < self.MIN_QUANTITY_CONJUNTO:
                 self.errors.append(f"{prefix} Quantidade mínima para conjuntos é {self.MIN_QUANTITY_CONJUNTO} unidade.")

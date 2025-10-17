@@ -5,6 +5,7 @@ import os
 from ..core.models import OrderInfo, SizeTable, Gender, Size, Sleeve
 from ..core.utils import add_business_days_including_saturday
 from ..pdf.generator import TechSheetPDF, PDFOptions
+from .theme import ThemeManager
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -13,10 +14,19 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.setWindowTitle("Fichas Técnicas - Manauara Design")
 		self.resize(1100, 780)
 		self._init_ui()
+		self._init_menu()
 
 	def _init_ui(self):
 		container = QtWidgets.QWidget()
 		layout = QtWidgets.QVBoxLayout(container)
+
+		# Toolbar com botão Home
+		tb = QtWidgets.QToolBar("Principal", self)
+		tb.setMovable(False)
+		a_home = QtGui.QAction("🏠 Home", self)
+		a_home.triggered.connect(self._go_back_to_start)
+		tb.addAction(a_home)
+		self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, tb)
 
 		form = QtWidgets.QGridLayout()
 		row = 0
@@ -200,6 +210,49 @@ class MainWindow(QtWidgets.QMainWindow):
 				self.setWindowIcon(app_icon)
 		except Exception:
 			pass
+
+	def _init_menu(self):
+		bar = self.menuBar()
+		app_menu = bar.addMenu("Aplicativo")
+
+		action_toggle_theme = QtGui.QAction("Alternar tema (Claro/Escuro)", self)
+		action_toggle_theme.triggered.connect(self._toggle_theme)
+		app_menu.addAction(action_toggle_theme)
+
+		action_back = QtGui.QAction("Voltar ao Início", self)
+		action_back.triggered.connect(self._go_back_to_start)
+		app_menu.addAction(action_back)
+
+	def _toggle_theme(self):
+		app = QtWidgets.QApplication.instance()
+		if app is not None:
+			ThemeManager.toggle_theme(app)
+
+	def _go_back_to_start(self):
+		from .start_window import StartDialog
+		dlg = StartDialog(None)
+		self.hide()
+		result = dlg.exec()
+		if result == QtWidgets.QDialog.DialogCode.Accepted:
+			if dlg.start_ficha:
+				from .main_window import MainWindow
+				win = MainWindow()
+				win.show()
+				self._next_window = win
+			elif dlg.start_orcamento:
+				from .simulator_window import SimulatorWindow
+				win = SimulatorWindow()
+				win.show()
+				self._next_window = win
+			elif dlg.start_admin:
+				from .admin_window import AdminWindow
+				win = AdminWindow()
+				win.show()
+				self._next_window = win
+			self.close()
+		else:
+			# Usuário cancelou: manter janela atual
+			self.show()
 
 	def _pick_image(self, target: QtWidgets.QLineEdit, preview: QtWidgets.QLabel):
 		settings = QtCore.QSettings("ManauaraDesign", "BudgetApp")

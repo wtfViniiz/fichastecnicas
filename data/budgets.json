@@ -128,5 +128,32 @@
     "total": 200.0,
     "created_date": "2025-10-16",
     "saved_date": "2025-10-16T17:50:24.477463"
+  },
+  {
+    "id": "ORC_20251017_104231_4",
+    "client": {
+      "name": "vinicios tavarers",
+      "phone": "(92) 9 8237-2857",
+      "email": null
+    },
+    "items": [
+      {
+        "product_type": "camiseta",
+        "fabric": "helanca",
+        "sleeve": "curta",
+        "size": "PP",
+        "visual_type": null,
+        "quantity": 200,
+        "width_cm": null,
+        "height_cm": null,
+        "art_creation_price": null
+      }
+    ],
+    "discount": null,
+    "art_creation_total": 0.0,
+    "subtotal": 7000.0,
+    "total": 6860.0,
+    "created_date": "2025-10-17",
+    "saved_date": "2025-10-17T10:42:31.031364"
   }
 ]

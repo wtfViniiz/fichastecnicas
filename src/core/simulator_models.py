@@ -35,6 +35,7 @@ class ProductItem:
     sleeve: Optional[SleeveType] = None
     size: Optional[SizeType] = None
     visual_type: Optional[VisualType] = None
+    other_name: Optional[str] = None  # Produtos cadastrados no Admin
     quantity: int = 1
     width_cm: Optional[float] = None  # Para comunicação visual
     height_cm: Optional[float] = None  # Para comunicação visual
@@ -72,6 +73,7 @@ class PriceDatabase:
         self.camiseta_prices = self._load_camiseta_prices()
         self.conjunto_prices = self._load_conjunto_prices()
         self.visual_prices = self._load_visual_prices()
+        self.other_products = self._load_other_products()
     
     def _load_camiseta_prices(self) -> Dict[tuple, Decimal]:
         """Carrega preços das camisetas baseado na tabela fornecida"""
@@ -143,14 +145,47 @@ class PriceDatabase:
         
         return prices
     
-    def _load_visual_prices(self) -> Dict[VisualType, Decimal]:
-        """Carrega preços da comunicação visual"""
-        return {
+    def _load_visual_prices(self) -> Dict[str, Decimal]:
+        """Carrega preços da comunicação visual, mesclando com config/prices.json se existir."""
+        base = {
             "lona": Decimal('60.00'),
             "adesivo": Decimal('50.00'),
             "adesivo_perfurado": Decimal('70.00'),
-            "banner": Decimal('50.00')  # Assumindo mesmo preço do adesivo
+            "banner": Decimal('50.00')
         }
+        import os, json
+        cfg = os.path.join("config", "prices.json")
+        if os.path.exists(cfg):
+            try:
+                with open(cfg, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    for v in data.get("visual", []):
+                        name = str(v.get("nome", "")).strip()
+                        price = Decimal(str(v.get("preco_m2", 0)))
+                        if name:
+                            base[name.lower()] = price
+            except Exception:
+                pass
+        return base
+
+    def _load_other_products(self) -> Dict[str, tuple[Decimal, bool]]:
+        """Carrega produtos 'outros' do config: nome -> (preço, por_m2)."""
+        out: Dict[str, tuple[Decimal, bool]] = {}
+        import os, json
+        cfg = os.path.join("config", "prices.json")
+        if os.path.exists(cfg):
+            try:
+                with open(cfg, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    for o in data.get("outros", []):
+                        name = str(o.get("nome", "")).strip()
+                        price = Decimal(str(o.get("preco", 0)))
+                        per_m2 = bool(o.get("por_m2", False))
+                        if name:
+                            out[name] = (price, per_m2)
+            except Exception:
+                return {}
+        return out
     
     def get_camiseta_price(self, fabric: FabricType, sleeve: SleeveType, size: SizeType, client_type: ClientType = "normal") -> Decimal:
         """Retorna preço da camiseta"""
@@ -162,10 +197,19 @@ class PriceDatabase:
         key = (conjunto_type, sleeve, client_type)
         return self.conjunto_prices.get(key, Decimal('0'))
     
-    def get_visual_price(self, visual_type: VisualType) -> Decimal:
+    def get_visual_price(self, visual_type: str) -> Decimal:
         """Retorna preço por m² da comunicação visual"""
-        return self.visual_prices.get(visual_type, Decimal('0'))
+        return self.visual_prices.get(str(visual_type).lower(), Decimal('0'))
     
     def get_short_price(self, client_type: ClientType = "normal") -> Decimal:
         """Retorna preço base do short"""
         return Decimal('25.00')  # Preço fixo base
+
+    def get_visual_names(self) -> List[str]:
+        return list(self.visual_prices.keys())
+
+    def get_other_products(self) -> List[tuple[str, Decimal, bool]]:
+        return [(name, price, per_m2) for name, (price, per_m2) in self.other_products.items()]
+
+    def get_other_info(self, name: str) -> tuple[Decimal, bool]:
+        return self.other_products.get(name, (Decimal('0'), False))

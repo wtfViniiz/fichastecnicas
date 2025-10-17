@@ -2,10 +2,13 @@ from PyQt6 import QtWidgets, QtGui
 import sys
 
 from .ui.main_window import MainWindow
+from .ui.theme import ThemeManager
 
 
 def main():
 	app = QtWidgets.QApplication(sys.argv)
+	# Aplica tema salvo
+	ThemeManager.apply_saved_theme(app)
 
 	# Splash com logo (não bloqueante)
 	try:

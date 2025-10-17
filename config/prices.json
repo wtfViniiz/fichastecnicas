@@ -145,13 +145,33 @@
       "preco": 48.0
     }
   ],
-  "visual": {
-    "lona": 60.0,
-    "adesivo": 50.0,
-    "adesivo_perfurado": 70.0,
-    "banner": 50.0
-  },
-  "outros": {
-    "short": 25.0
-  }
+  "visual": [
+    {
+      "nome": "Lona",
+      "preco_m2": 60.0
+    },
+    {
+      "nome": "Adesivo",
+      "preco_m2": 50.0
+    },
+    {
+      "nome": "Adesivo Perfurado",
+      "preco_m2": 70.0
+    },
+    {
+      "nome": "Banner",
+      "preco_m2": 50.0
+    },
+    {
+      "nome": "asdasdasfasfa",
+      "preco_m2": 150.0
+    }
+  ],
+  "outros": [
+    {
+      "nome": "Short",
+      "preco": 25.0,
+      "por_m2": false
+    }
+  ]
 }
