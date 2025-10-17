@@ -25,7 +25,7 @@ class AdminWindow(QtWidgets.QMainWindow):
         # Toolbar com botão Home
         tb = QtWidgets.QToolBar("Principal", self)
         tb.setMovable(False)
-        a_home = QtGui.QAction("🏠 Home", self)
+        a_home = QtGui.QAction("Voltar ao Início", self)
         a_home.triggered.connect(self._go_back_to_start)
         tb.addAction(a_home)
         self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, tb)

@@ -13,6 +13,7 @@ from ..core.simulator_models import Budget, ProductItem
 class BudgetPDF:
     A4_WIDTH_CM = 21.0
     A4_HEIGHT_CM = 29.7
+    LOGO_OFFSET_CM = 1.0
 
     def __init__(self, logos_dir: str = "public") -> None:
         self.path_manauara_logo = f"{logos_dir}/manauara_design.svg"
@@ -39,13 +40,14 @@ class BudgetPDF:
 
     def _draw_header(self, c: canvas.Canvas, x: float, y: float) -> None:
         # Logo Manauara
-        self._draw_svg(c, self.path_manauara_logo, x, y, 4.0, 2.0)
+        self._draw_svg(c, self.path_manauara_logo, x, y - cm(self.LOGO_OFFSET_CM), 4.0, 2.0)
         
         # Título
-        self._draw_text(c, "ORÇAMENTO", x + cm(8), y + cm(1.5), "Helvetica-Bold", 24)
+        self._draw_text(c, "ORÇAMENTO", x + cm(8), y + cm(0.8 - self.LOGO_OFFSET_CM), "Helvetica-Bold", 24)
         
         # Data
-        self._draw_text(c, f"Data: {date.today().strftime('%d/%m/%Y')}", x + cm(8), y + cm(0.8), "Helvetica", 12)
+        self._draw_text(c, f"Data: {date.today().strftime('%d/%m/%Y')}", x + cm(8), y + cm(0.2 - self.LOGO_OFFSET_CM), "Helvetica", 12)
+        self._draw_text(c, f"ORÇAMENTO VALIDO POR ATÉ 30 DIAS", x + cm(8), y + cm(0.0 - self.LOGO_OFFSET_CM), "Helvetica", 12)
 
     def _draw_client_info(self, c: canvas.Canvas, x: float, y: float, budget: Budget) -> None:
         self._draw_text(c, "DADOS DO CLIENTE", x, y, "Helvetica-Bold", 14)
@@ -173,7 +175,18 @@ class BudgetPDF:
         
         # Desconto
         if budget.discount:
-            discount_text = f"Desconto ({budget.discount.description}): R$ {budget.discount.value:.2f}"
+            # Mostrar resumo do desconto
+            desc = budget.discount.description or ("percentual" if budget.discount.type == "percentage" else "valor fixo")
+            # Tenta derivar valor do desconto quando type == percentage (valor monetário calculado)
+            try:
+                if budget.discount.type == "percentage":
+                    perc = float(budget.discount.value)
+                    discount_value = float(budget.subtotal + budget.art_creation_total) * (perc / 100.0)
+                    discount_text = f"Desconto ({int(perc)}% - {desc}): R$ {discount_value:.2f}"
+                else:
+                    discount_text = f"Desconto ({desc}): R$ {budget.discount.value:.2f}"
+            except Exception:
+                discount_text = f"Desconto: R$ {budget.discount.value:.2f}"
             c.drawString(x + cm(12), y, discount_text)
             y -= cm(0.4)
         

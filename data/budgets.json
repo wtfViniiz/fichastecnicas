@@ -155,5 +155,32 @@
     "total": 6860.0,
     "created_date": "2025-10-17",
     "saved_date": "2025-10-17T10:42:31.031364"
+  },
+  {
+    "id": "ORC_20251017_113003_5",
+    "client": {
+      "name": "marcos",
+      "phone": "(92) 9 9295-5059",
+      "email": "emailexemplo"
+    },
+    "items": [
+      {
+        "product_type": "comunicacao_visual",
+        "fabric": null,
+        "sleeve": null,
+        "size": null,
+        "visual_type": "asdasdasfasfa",
+        "quantity": 5,
+        "width_cm": 200.0,
+        "height_cm": 450.0,
+        "art_creation_price": null
+      }
+    ],
+    "discount": null,
+    "art_creation_total": 0.0,
+    "subtotal": 6750.0,
+    "total": 6547.5,
+    "created_date": "2025-10-17",
+    "saved_date": "2025-10-17T11:30:03.969352"
   }
 ]

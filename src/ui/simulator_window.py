@@ -41,7 +41,7 @@ class SimulatorWindow(QtWidgets.QMainWindow):
         # Toolbar com botão Home
         toolbar = QtWidgets.QToolBar("Principal", self)
         toolbar.setMovable(False)
-        action_home = QtGui.QAction("🏠 Home", self)
+        action_home = QtGui.QAction("Voltar ao Início", self)
         action_home.triggered.connect(self._go_back_to_start)
         toolbar.addAction(action_home)
         self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, toolbar)

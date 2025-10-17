@@ -37,30 +37,40 @@ class StartDialog(QtWidgets.QDialog):
 
 	def _init_ui(self) -> None:
 		layout = QtWidgets.QVBoxLayout(self)
+		layout.setSpacing(16)
+		title = QtWidgets.QLabel("Manauara Design")
+		title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+		title.setStyleSheet("font-size: 20px; font-weight: 700;")
+		layout.addWidget(title)
+
 		logo = QtWidgets.QLabel()
 		logo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-		# tenta carregar da pasta public
 		icon = load_app_icon()
-		pix = icon.pixmap(160, 160)
+		pix = icon.pixmap(120, 120)
 		if not pix.isNull():
-			logo.setPixmap(pix.scaled(160, 160, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.TransformationMode.SmoothTransformation))
+			logo.setPixmap(pix.scaled(120, 120, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.TransformationMode.SmoothTransformation))
 		layout.addWidget(logo)
 
-		btns = QtWidgets.QHBoxLayout()
-		btn_orc = QtWidgets.QPushButton("Simular Orçamento")
-		btn_ficha = QtWidgets.QPushButton("Gerar Ficha Técnica")
+		grid = QtWidgets.QGridLayout()
+		btn_orc = QtWidgets.QPushButton("🧮 Simular Orçamento")
+		btn_ficha = QtWidgets.QPushButton("📄 Gerar Ficha Técnica")
 		btn_admin = QtWidgets.QPushButton("⚙️ Administração")
+		for b in (btn_orc, btn_ficha, btn_admin):
+			b.setMinimumHeight(42)
 		btn_orc.clicked.connect(self._on_orc)
 		btn_ficha.clicked.connect(self._on_ficha)
 		btn_admin.clicked.connect(self._on_admin)
-		btns.addWidget(btn_orc)
-		btns.addWidget(btn_ficha)
-		btns.addWidget(btn_admin)
-		layout.addLayout(btns)
+		grid.addWidget(btn_orc, 0, 0)
+		grid.addWidget(btn_ficha, 0, 1)
+		grid.addWidget(btn_admin, 1, 0, 1, 2)
+		layout.addLayout(grid)
 
+		footer = QtWidgets.QHBoxLayout()
+		footer.addStretch(1)
 		close_box = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.StandardButton.Close)
 		close_box.rejected.connect(self.reject)
-		layout.addWidget(close_box)
+		footer.addWidget(close_box)
+		layout.addLayout(footer)
 
 	def _on_orc(self) -> None:
 		# abrir simulador de orçamentos

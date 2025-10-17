@@ -44,6 +44,8 @@ class ThemeManager:
 
         app.setPalette(palette)
         cls.save_theme(theme)
+        # Aplica QSS moderno para suavizar UI
+        app.setStyleSheet(cls._modern_qss(theme))
 
     @classmethod
     def apply_saved_theme(cls, app: QtWidgets.QApplication) -> str:
@@ -57,5 +59,74 @@ class ThemeManager:
         new_theme = "dark" if theme != "dark" else "light"
         cls.apply_theme(app, new_theme)
         return new_theme
+
+    @staticmethod
+    def _modern_qss(theme: str) -> str:
+        radius = 8
+        if theme == "dark":
+            bg = "#353535"
+            card = "#2b2b2b"
+            border = "#444"
+            text = "#f0f0f0"
+            primary = "#2a82da"
+            hover = "#3a92ea"
+        else:
+            bg = "#f6f7fb"
+            card = "#ffffff"
+            border = "#dcdfe6"
+            text = "#1f2d3d"
+            primary = "#2a82da"
+            hover = "#3a92ea"
+        return f"""
+        QWidget {{
+            color: {text};
+            background: {bg};
+            font-size: 13px;
+        }}
+        QGroupBox {{
+            background: {card};
+            border: 1px solid {border};
+            border-radius: {radius}px;
+            margin-top: 12px;
+            padding-top: 12px;
+        }}
+        QGroupBox::title {{
+            subcontrol-origin: margin;
+            subcontrol-position: top left;
+            padding: 0 6px;
+            color: {text};
+            font-weight: 600;
+        }}
+        QPushButton {{
+            background: {primary};
+            color: white;
+            border-radius: {radius}px;
+            padding: 6px 12px;
+        }}
+        QPushButton:hover {{ background: {hover}; }}
+        QPushButton:disabled {{ background: {border}; color: #999; }}
+        QLineEdit, QPlainTextEdit, QComboBox, QSpinBox, QDoubleSpinBox {{
+            background: {card};
+            border: 1px solid {border};
+            border-radius: {radius}px;
+            padding: 6px 8px;
+        }}
+        QListWidget, QTableWidget {{
+            background: {card};
+            border: 1px solid {border};
+            border-radius: {radius}px;
+        }}
+        QTabWidget::pane {{
+            border: 1px solid {border};
+            border-radius: {radius}px;
+            background: {card};
+        }}
+        QToolBar {{
+            background: {card};
+            border-bottom: 1px solid {border};
+            padding: 4px;
+        }}
+        QStatusBar {{ background: transparent; }}
+        """
 
 

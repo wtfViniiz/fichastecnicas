@@ -8,5 +8,25 @@
     "total_spent": 6860.0,
     "budgets_count": 1,
     "last_purchase_at": "2025-10-17T10:42:31.036056"
+  },
+  {
+    "id": "CLI_20251017_111258_1",
+    "name": "fadsd",
+    "phone": "asdasdasd",
+    "email": "adasd",
+    "created_at": "2025-10-17T11:12:58.964400",
+    "total_spent": 0.0,
+    "budgets_count": 0,
+    "last_purchase_at": null
+  },
+  {
+    "id": "CLI_20251017_113003_2",
+    "name": "marcos",
+    "phone": "(92) 9 9295-5059",
+    "email": "emailexemplo",
+    "created_at": "2025-10-17T11:30:03.970710",
+    "total_spent": 6547.5,
+    "budgets_count": 1,
+    "last_purchase_at": "2025-10-17T11:30:03.971327"
   }
 ]
