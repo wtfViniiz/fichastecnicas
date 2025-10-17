@@ -19,14 +19,42 @@ class MainWindow(QtWidgets.QMainWindow):
 	def _init_ui(self):
 		container = QtWidgets.QWidget()
 		layout = QtWidgets.QVBoxLayout(container)
-
 		# Toolbar com botão Home
 		tb = QtWidgets.QToolBar("Principal", self)
 		tb.setMovable(False)
+
+		# Aplica estilo aos botões da toolbar
+		tb.setStyleSheet("""
+			QToolButton {
+				background-color: #4CAF50;   /* verde */
+				color: white;
+				border: none;
+				padding: 6px 10px;
+				border-radius: 6px;
+				font-weight: bold;
+			}
+
+			QToolButton:hover {
+				background-color: #45a049;   /* verde mais escuro no hover */
+			}
+
+			QToolButton:pressed {
+				background-color: #3e8e41;   /* verde ainda mais escuro ao clicar */
+			}
+
+			QToolBar {
+				background: #f5f5f5;         /* fundo neutro pra destacar o botão */
+				spacing: 4px;
+				padding: 4px;
+			}
+		""")
+
 		a_home = QtGui.QAction("Voltar ao Início", self)
 		a_home.triggered.connect(self._go_back_to_start)
 		tb.addAction(a_home)
+
 		self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, tb)
+
 
 		form = QtWidgets.QGridLayout()
 		row = 0
@@ -219,9 +247,29 @@ class MainWindow(QtWidgets.QMainWindow):
 		action_toggle_theme.triggered.connect(self._toggle_theme)
 		app_menu.addAction(action_toggle_theme)
 
+		app_menu = QtWidgets.QMenu("Aplicativo", self)
+
+		# Estilo geral para o menu e os itens
+		app_menu.setStyleSheet("""
+			QMenu {
+				background-color: #ffffff;
+				border: 1px solid #ccc;
+			}
+			QMenu::item {
+				background-color: transparent;
+				color: black;
+				padding: 6px 20px;
+			}
+			QMenu::item:selected {
+				background-color: #4CAF50;  /* verde */
+				color: white;               /* texto branco */
+			}
+		""")
+
 		action_back = QtGui.QAction("Voltar ao Início", self)
 		action_back.triggered.connect(self._go_back_to_start)
 		app_menu.addAction(action_back)
+
 
 	def _toggle_theme(self):
 		app = QtWidgets.QApplication.instance()

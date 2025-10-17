@@ -22,13 +22,32 @@ class AdminWindow(QtWidgets.QMainWindow):
         container = QtWidgets.QWidget()
         layout = QtWidgets.QVBoxLayout(container)
 
-        # Toolbar com botão Home
-        tb = QtWidgets.QToolBar("Principal", self)
-        tb.setMovable(False)
-        a_home = QtGui.QAction("Voltar ao Início", self)
-        a_home.triggered.connect(self._go_back_to_start)
-        tb.addAction(a_home)
-        self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, tb)
+        toolbar = QtWidgets.QToolBar("Principal", self)
+        toolbar.setMovable(False)
+        # Aplica o estilo verde aos botões da toolbar
+        toolbar.setStyleSheet("""
+            QToolButton {
+                background-color: #4CAF50;   /* verde */
+                color: white;                /* texto branco */
+                border: none;
+                padding: 6px 12px;
+                border-radius: 6px;
+            }
+
+            QToolButton:hover {
+                background-color: #45a049;   /* verde mais escuro ao passar o mouse */
+            }
+
+            QToolButton:pressed {
+                background-color: #3e8e41;   /* verde ainda mais escuro ao clicar */
+            }
+        """)
+
+        action_home = QtGui.QAction("Voltar ao Início", self)
+        action_home.triggered.connect(self._go_back_to_start)
+
+        toolbar.addAction(action_home)
+        self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, toolbar)
 
         # Título
         title = QtWidgets.QLabel("⚙️ Administração do Sistema")
