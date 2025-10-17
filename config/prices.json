@@ -1,0 +1,157 @@
+{
+  "camisetas": [
+    {
+      "tecido": "dryfit",
+      "manga": "curta",
+      "tamanho": "PP",
+      "preco": 40.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "curta",
+      "tamanho": "P",
+      "preco": 40.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "curta",
+      "tamanho": "M",
+      "preco": 40.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "curta",
+      "tamanho": "G",
+      "preco": 40.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "curta",
+      "tamanho": "GG",
+      "preco": 45.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "curta",
+      "tamanho": "XG",
+      "preco": 45.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "longa",
+      "tamanho": "PP",
+      "preco": 45.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "longa",
+      "tamanho": "P",
+      "preco": 45.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "longa",
+      "tamanho": "M",
+      "preco": 45.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "longa",
+      "tamanho": "G",
+      "preco": 45.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "longa",
+      "tamanho": "GG",
+      "preco": 50.0
+    },
+    {
+      "tecido": "dryfit",
+      "manga": "longa",
+      "tamanho": "XG",
+      "preco": 53.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "curta",
+      "tamanho": "PP",
+      "preco": 35.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "curta",
+      "tamanho": "P",
+      "preco": 35.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "curta",
+      "tamanho": "M",
+      "preco": 35.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "curta",
+      "tamanho": "G",
+      "preco": 35.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "curta",
+      "tamanho": "GG",
+      "preco": 40.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "curta",
+      "tamanho": "XG",
+      "preco": 40.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "longa",
+      "tamanho": "PP",
+      "preco": 40.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "longa",
+      "tamanho": "P",
+      "preco": 40.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "longa",
+      "tamanho": "M",
+      "preco": 40.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "longa",
+      "tamanho": "G",
+      "preco": 40.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "longa",
+      "tamanho": "GG",
+      "preco": 45.0
+    },
+    {
+      "tecido": "helanca",
+      "manga": "longa",
+      "tamanho": "XG",
+      "preco": 48.0
+    }
+  ],
+  "visual": {
+    "lona": 60.0,
+    "adesivo": 50.0,
+    "adesivo_perfurado": 70.0,
+    "banner": 50.0
+  },
+  "outros": {
+    "short": 25.0
+  }
+}

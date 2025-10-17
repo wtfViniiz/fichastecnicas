@@ -1,0 +1,13 @@
+{
+  "quantidades_minimas": {
+    "camiseta": 5,
+    "conjunto": 1,
+    "short": 1
+  },
+  "whatsapp": {
+    "mensagem": "Olá {nome}! 👋\n\nObrigado por comprar conosco! aqui está seu orçamento da:\n\n📋 *Resumo do Orçamento:*\n• Total: R$ {total}\n• {itens} item(ns) no orçamento\n\n💡 *Como posso ajudar:*\n• Dúvidas sobre produtos ou especificações\n• Ajustes de quantidades ou tamanhos  \n• Informações sobre prazos de entrega\n• Negociação de descontos especiais\n\nEstou à disposição para esclarecer qualquer dúvida! 😊\n\n_Manauara Design_"
+  },
+  "pdf": {
+    "rodape": "manauaradesig@gmail.com - Desenvolvido por Manauara Design - Todos os direitos reservados @2026"
+  }
+}

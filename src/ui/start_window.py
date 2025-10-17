@@ -31,6 +31,8 @@ class StartDialog(QtWidgets.QDialog):
 		self.setWindowTitle("Manauara Design - Início")
 		self.resize(420, 260)
 		self.start_ficha = False
+		self.start_orcamento = False
+		self.start_admin = False
 		self._init_ui()
 
 	def _init_ui(self) -> None:
@@ -45,13 +47,15 @@ class StartDialog(QtWidgets.QDialog):
 		layout.addWidget(logo)
 
 		btns = QtWidgets.QHBoxLayout()
-		btn_orc = QtWidgets.QPushButton("Simular Orçamento (em breve)")
+		btn_orc = QtWidgets.QPushButton("Simular Orçamento")
 		btn_ficha = QtWidgets.QPushButton("Gerar Ficha Técnica")
-		btn_orc.setEnabled(True)
+		btn_admin = QtWidgets.QPushButton("⚙️ Administração")
 		btn_orc.clicked.connect(self._on_orc)
 		btn_ficha.clicked.connect(self._on_ficha)
+		btn_admin.clicked.connect(self._on_admin)
 		btns.addWidget(btn_orc)
 		btns.addWidget(btn_ficha)
+		btns.addWidget(btn_admin)
 		layout.addLayout(btns)
 
 		close_box = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.StandardButton.Close)
@@ -59,12 +63,22 @@ class StartDialog(QtWidgets.QDialog):
 		layout.addWidget(close_box)
 
 	def _on_orc(self) -> None:
-		# futuro: abrir fluxo de orçamento
+		# abrir simulador de orçamentos
 		self.start_ficha = False
-		QtWidgets.QMessageBox.information(self, "Em breve", "Fluxo de orçamento será implementado futuramente.")
+		self.start_orcamento = True
+		self.start_admin = False
+		self.accept()
 
 	def _on_ficha(self) -> None:
 		self.start_ficha = True
+		self.start_orcamento = False
+		self.start_admin = False
+		self.accept()
+
+	def _on_admin(self) -> None:
+		self.start_ficha = False
+		self.start_orcamento = False
+		self.start_admin = True
 		self.accept()
 
 

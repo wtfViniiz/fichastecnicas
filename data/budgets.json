@@ -1,0 +1,132 @@
+[
+  {
+    "id": "ORC_20251016_172303_0",
+    "client": {
+      "name": "cliente da silva",
+      "phone": "(92) 9 8237-2857",
+      "email": null
+    },
+    "items": [
+      {
+        "product_type": "camiseta",
+        "fabric": "dryfit",
+        "sleeve": "longa",
+        "size": "16",
+        "visual_type": null,
+        "quantity": 30,
+        "width_cm": null,
+        "height_cm": null,
+        "art_creation_price": null
+      },
+      {
+        "product_type": "conjunto",
+        "fabric": "helanca_tactel",
+        "sleeve": "longa",
+        "size": null,
+        "visual_type": null,
+        "quantity": 1,
+        "width_cm": null,
+        "height_cm": null,
+        "art_creation_price": null
+      },
+      {
+        "product_type": "camiseta",
+        "fabric": "dryfit",
+        "sleeve": "curta",
+        "size": "G",
+        "visual_type": null,
+        "quantity": 20,
+        "width_cm": null,
+        "height_cm": null,
+        "art_creation_price": null
+      }
+    ],
+    "discount": null,
+    "art_creation_total": 0.0,
+    "subtotal": 800.0,
+    "total": 760.0,
+    "created_date": "2025-10-16",
+    "saved_date": "2025-10-16T17:23:03.660798"
+  },
+  {
+    "id": "ORC_20251016_173858_1",
+    "client": {
+      "name": "vinicios barbosa",
+      "phone": "(92) 9 8237-2857",
+      "email": null
+    },
+    "items": [
+      {
+        "product_type": "camiseta",
+        "fabric": "dryfit",
+        "sleeve": "curta",
+        "size": "PP",
+        "visual_type": null,
+        "quantity": 5,
+        "width_cm": null,
+        "height_cm": null,
+        "art_creation_price": null
+      }
+    ],
+    "discount": null,
+    "art_creation_total": 0.0,
+    "subtotal": 200.0,
+    "total": 190.0,
+    "created_date": "2025-10-16",
+    "saved_date": "2025-10-16T17:38:58.358179"
+  },
+  {
+    "id": "ORC_20251016_174141_2",
+    "client": {
+      "name": "vini",
+      "phone": "(92) 9 8237-2857",
+      "email": null
+    },
+    "items": [
+      {
+        "product_type": "camiseta",
+        "fabric": "dryfit",
+        "sleeve": "curta",
+        "size": "PP",
+        "visual_type": null,
+        "quantity": 5,
+        "width_cm": null,
+        "height_cm": null,
+        "art_creation_price": null
+      }
+    ],
+    "discount": null,
+    "art_creation_total": 0.0,
+    "subtotal": 200.0,
+    "total": 200.0,
+    "created_date": "2025-10-16",
+    "saved_date": "2025-10-16T17:41:41.272024"
+  },
+  {
+    "id": "ORC_20251016_175024_3",
+    "client": {
+      "name": "cliente da silva",
+      "phone": "(92) 9 8237-2857",
+      "email": null
+    },
+    "items": [
+      {
+        "product_type": "camiseta",
+        "fabric": "dryfit",
+        "sleeve": "curta",
+        "size": "PP",
+        "visual_type": null,
+        "quantity": 5,
+        "width_cm": null,
+        "height_cm": null,
+        "art_creation_price": null
+      }
+    ],
+    "discount": null,
+    "art_creation_total": 0.0,
+    "subtotal": 200.0,
+    "total": 200.0,
+    "created_date": "2025-10-16",
+    "saved_date": "2025-10-16T17:50:24.477463"
+  }
+]
